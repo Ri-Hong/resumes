@@ -61,9 +61,12 @@ Your task is to **automatically tailor resumes** for specific job applications b
 ### 3. Select and adapt content
 
 - **Select** the most relevant experiences and projects from `master.tex`.
+- **Prioritize ruthlessly**: Only include the 3-4 most relevant work experiences and 2-3 most relevant projects.
 - **Reorder** sections so the most relevant appear first.
 - **Reword** bullet points to highlight relevant skills, metrics, and impact using job description keywords.
-- **Remove** or shorten less relevant content to fit one page.
+- **Limit bullet points**: Maximum 2-3 bullets per experience, 1-2 bullets per project to ensure one-page fit.
+- **Condense aggressively**: Merge multiple achievements into single bullets, use concise language, remove filler words.
+- **Remove** less relevant content entirely if needed to fit one page - it's better to have fewer, highly relevant items than to exceed one page.
 - Never add experiences that do not exist — only **select, reword, or rearrange** from master.
 
 ### 4. Maintain structure and LaTeX integrity
@@ -73,11 +76,20 @@ Your task is to **automatically tailor resumes** for specific job applications b
 - Preserve the header, education, and contact format.
 - Preserve macro usage such as `\resumeSubheading`, `\resumeItemListStart`, `\resumeItemListEnd`, and `\resumeItem`.
 
-### 5. Keep it concise and one page
+### 5. Keep it concise and one page - **CRITICAL REQUIREMENT**
 
-- The final output must compile into **one page** on US Letter paper.
-- If too long, compress bullet points by merging phrases and removing less relevant details.
-- If too short, include more relevant experiences/projects from master (without fabricating content).
+- **MANDATORY**: The final output MUST compile into **exactly one page** on US Letter paper (8.5" × 11"). This is non-negotiable.
+- **If content exceeds one page, you MUST**:
+  1. **Aggressively reduce bullet points**: Limit to 2-3 bullets per experience, 1-2 bullets per project
+  2. **Merge and condense**: Combine related achievements into single bullets using semicolons or commas
+  3. **Remove less relevant content**: Prioritize ruthlessly - remove entire experiences/projects if they're not highly relevant
+  4. **Shorten descriptions**: Use concise language, remove filler words, use abbreviations where appropriate
+  5. **Reduce spacing**: Minimize vertical spacing between sections (but maintain readability)
+  6. **Limit experiences**: Include only the 3-4 most relevant work experiences
+  7. **Limit projects**: Include only the 2-3 most relevant projects
+  8. **Condense education**: Keep education section minimal (just degree, school, dates, GPA if high)
+- **Before finalizing**: Estimate content length - if it appears it will exceed one page, proactively remove or condense content.
+- **If too short**: Include more relevant experiences/projects from master (without fabricating content), but still ensure it fits on one page.
 
 ### 6. Output constraints
 
@@ -138,18 +150,21 @@ Create a resume for this, save it as John_Doe
      - If not specified, check root `resume_name.txt` file
      - If neither exists, default to "resume"
      - The resume name is global and applies to all generated resumes
-   - **Save the EXACT job description text** (verbatim, unmodified) to `jobs/{company}/{role}/{version}/job_description.txt`
+   - **Save the EXACT job description text** (verbatim, unmodified) to `applications/{company}/{role}/{version}/job_description.txt`
      - Preserve all text exactly as the user provided it - do NOT summarize or edit
 
 3. **Read master.tex** to understand all available experiences and projects.
 
 4. **Tailor the resume**:
 
-   - Select most relevant experiences/projects from `master.tex`
+   - Select most relevant experiences/projects from `master.tex` (limit to 3-4 experiences, 2-3 projects)
    - Emphasize relevant skills and technologies from the job description
    - Use wording that reflects job description keywords
    - Move the most relevant experiences and projects to the top
-   - Keep education, awards, and contact sections unless told otherwise
+   - **Limit bullet points**: Maximum 2-3 per experience, 1-2 per project
+   - **Condense aggressively**: Merge achievements, use concise language, remove filler
+   - Keep education, awards, and contact sections minimal and concise
+   - **CRITICAL**: Ensure the final resume fits on exactly one page - remove content if necessary
 
 5. **Save files**:
    - Save tailored resume to `applications/{company}/{role}/{version}/{resume_name}.tex`
@@ -180,8 +195,9 @@ Create a resume for this, save it as John_Doe
 6. Select most relevant: Base Power (Go, Kubernetes, Temporal), Groq (Kubernetes, Terraform, GCP), HomeLab (Kubernetes, Terraform)
 7. Reorder to put cloud/infrastructure experiences first
 8. Reword bullets to emphasize "Go", "Terraform", "Kubernetes" where factually accurate
-9. Shorten or remove less relevant items (e.g., frontend-focused projects) to fit one page
-10. Save tailored resume to `applications/aws/backend-engineer-intern/{version}/{resume_name}.tex`
+9. **Aggressively condense**: Limit to 2-3 bullets per experience, merge achievements, remove less relevant items entirely
+10. **Verify one-page fit**: Ensure content fits on exactly one page - merge achievements, remove less relevant items entirely if necessary to fit the 1 page limit
+11. Save tailored resume to `applications/aws/backend-engineer-intern/{version}/{resume_name}.tex`
 
 ---
 
@@ -193,6 +209,13 @@ Create a resume for this, save it as John_Doe
 - Do not fabricate new roles, companies, or achievements.
 - Always preserve factual accuracy and a professional tone.
 - **CRITICAL**: When saving `job_description.txt`, save the EXACT text the user provided. Do NOT summarize, edit, or modify it in any way. The file should be a verbatim copy of what the user pasted.
+- **CRITICAL - ONE PAGE REQUIREMENT**: The resume MUST fit on exactly one page. If content is too long:
+  - Remove entire experiences/projects that are less relevant
+  - Limit to 2-3 bullets per experience, 1-2 per project
+  - Merge multiple achievements into single bullets
+  - Use extremely concise language
+  - Remove all non-essential information
+  - It is better to have fewer, highly relevant items than to exceed one page
 - **Resume naming**:
   - Users can specify a custom resume name in their request (e.g., "name it Ri_Hong", "save as John_Doe")
   - The resume name is sanitized (spaces → underscores, special chars removed)
