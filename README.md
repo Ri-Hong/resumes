@@ -38,9 +38,19 @@ resumes/
 
 ## 🚀 Quick Start
 
+### 0. Set Resume Name (First Time Only)
+
+Before creating your first resume, set your desired resume filename by editing `resume_name.txt` in the root directory:
+
+```bash
+echo "Ri_Hong" > resume_name.txt
+```
+
+Or manually edit the file and add your desired name (e.g., "Ri_Hong", "John_Doe"). This name will be used for all generated resume files. If you don't set this, files will default to "resume".
+
 ### 1. Paste Job Description
 
-Simply paste the full job posting into Cursor and ask it to tailor your resume. Optionally, you can specify a custom name for the resume files (e.g., "name it Ri_Hong" or "save as John_Doe").
+Simply paste the full job posting into Cursor and ask it to tailor your resume. The resume name from `resume_name.txt` will be used automatically.
 
 The AI will:
 
@@ -50,9 +60,8 @@ The AI will:
    - If this is the first resume for this company/role, creates version `1`
    - If versions already exist, finds the highest version `n` and creates version `n + 1`
 3. **Determine resume name** (global setting):
-   - If you specified a custom name, uses that (sanitized: spaces → underscores) and saves to root `resume_name.txt`
-   - Otherwise, checks root `resume_name.txt` file
-   - If neither exists, defaults to "resume"
+   - Reads the name from root `resume_name.txt` file
+   - If the file doesn't exist, defaults to "resume"
    - The name applies to all generated resumes globally
 4. **Create** the directory structure: `applications/{company}/{role}/{version}/`
 5. **Save** the job description to `applications/{company}/{role}/{version}/job_description.txt`
@@ -69,23 +78,15 @@ We're looking for someone with experience in distributed systems,
 Go, Kubernetes, and cloud infrastructure...
 
 [full job description]
-
-Please name this resume Ri_Hong
 ```
 
 **Result:**
 
-- First time (with "name it Ri_Hong"): Creates `applications/google/software-engineering-intern/1/` with `Ri_Hong.tex`, saves "Ri_Hong" to root `resume_name.txt`
-- Second time (same role): Creates `applications/google/software-engineering-intern/2/` with `Ri_Hong.tex` (uses global name)
-- Third time (different company, same global name): Creates `applications/aws/backend-engineer/1/` with `Ri_Hong.tex`
+- Creates `applications/google/software-engineering-intern/1/` with `Ri_Hong.tex` (using name from `resume_name.txt`)
+- Second time (same role): Creates `applications/google/software-engineering-intern/2/` with `Ri_Hong.tex` (uses same global name)
+- Third time (different company): Creates `applications/aws/backend-engineer/1/` with `Ri_Hong.tex` (uses same global name)
 
-**Custom Resume Names (Global Setting):**
-
-- Specify in your request: "name it Ri_Hong", "save as John_Doe", etc.
-- The name is sanitized (spaces become underscores, special chars removed)
-- Saved to `resume_name.txt` in the **root directory** (applies to all resumes)
-- All files (`.tex`, `.pdf`) across all jobs use this global name
-- You can manually edit root `resume_name.txt` to change the name globally
+**Note:** All generated resume files (`.tex`, `.pdf`) will use the name specified in `resume_name.txt`. You can edit this file anytime to change the name globally for future resumes.
 
 That's it! Cursor handles everything automatically, including version management and custom naming.
 
@@ -121,16 +122,15 @@ The `master.tex` file is your **single source of truth**. It contains:
 3. **AI Tailors Resume**: Cursor automatically:
    - Extracts company and role (or asks if unclear)
    - Determines the next version number
-   - Determines resume name (from your request, root `resume_name.txt`, or defaults to "resume")
+   - Determines resume name from root `resume_name.txt` (or defaults to "resume" if file doesn't exist)
    - Creates the directory structure `applications/{company}/{role}/{version}/`
    - Saves the job description
-   - If you specified a new resume name, saves it to root `resume_name.txt` (global setting)
-   - Generates a tailored resume with the global name
+   - Generates a tailored resume with the name from `resume_name.txt`
 4. **Compile & Submit**: Generate PDF and submit your application
 
 **Multiple Versions:** If you want multiple tailored resumes for the same role (e.g., emphasizing different skills), simply paste the job description again. Cursor will automatically create the next version number.
 
-**Custom Resume Names (Global):** Specify a custom name in your request (e.g., "name it Ri_Hong") to set it globally. The name is saved to root `resume_name.txt` and used for all generated resume files across all jobs. Edit the root file to change it globally.
+**Custom Resume Names (Global):** Edit `resume_name.txt` in the root directory to set your desired resume filename. This name will be used for all generated resume files across all applications. You can change it anytime by editing the file.
 
 ## 🛠️ Utilities
 
@@ -201,20 +201,6 @@ A: No, keep one `master.tex` with everything. The system is designed to select f
 
 **Q: What if a job directory already exists?**  
 A: Cursor will automatically create a new version. For example, if `applications/google/software-engineer/1/` exists, it will create `applications/google/software-engineer/2/`. This allows you to have multiple tailored resumes for the same role.
-
-**Q: How do I delete a job application?**  
-A: Delete the specific version directory: `rm -rf applications/{company}/{role}/{version}/`  
-Or delete all versions for a role: `rm -rf applications/{company}/{role}/`  
-Or delete all roles for a company: `rm -rf applications/{company}/`
-
-**Q: Can I manually edit tailored resumes?**  
-A: Yes! The AI generates a starting point, but you can always edit the resume `.tex` file directly.
-
-**Q: How do I customize the resume filename?**  
-A: Specify it when creating the resume (e.g., "name it Ri_Hong") or manually edit `resume_name.txt` in the **root directory**. The name is global and applies to all generated resume files across all jobs. The name is sanitized (spaces → underscores) and used for all `.tex` and `.pdf` files.
-
-**Q: Do I need to run any scripts?**  
-A: No! Just paste the job description and Cursor handles everything automatically.
 
 ## 📄 License
 
