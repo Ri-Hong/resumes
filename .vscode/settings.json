@@ -1,4 +1,5 @@
 {
-  "latex-workshop.formatting.latex": "latexindent"
+  "latex-workshop.formatting.latex": "latexindent",
+  "latex-workshop.latex.autoBuild.run": "onFileChange"
 }
 
